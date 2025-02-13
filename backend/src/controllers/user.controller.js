@@ -31,9 +31,27 @@ module.exports.createUserController = async (req,res)=>{
                 message:"UserAlredy Exists Plase Login"
             })
         }
-        
+        //Password Hashing
+        const hashPassword = await userModel.hash(password,10)
 
-
+        //user saving
+        const userSaved = await userModel.create({
+            username,
+            email,
+            password:hashPassword
+        })
+        //
+        if(!userSaved){
+            return res.status(400).send({
+                message:"Error While Saving The User"
+           })
+        }
+        //SucessFully Saved
+        return res.status(200).json({
+            data:userSaved,
+             message:"UserSaved SuccessFully"
+                
+        })
      }
      catch(error){
         return res.status(400).send({
