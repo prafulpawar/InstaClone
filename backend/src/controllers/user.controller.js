@@ -63,8 +63,11 @@ module.exports.loginController = async (req,res)=>{
 
          //cheking userExsists Or Not
          const isExistsUser = await userModel.findOne({email});
+         if(!isExistsUser ){
+            throw new CustomError("Invalid Credentials!",400);
+         }
          const passwordMatch = await userModel.comparePassword(password,isExistsUser.password);
-         if(!isExistsUser || !passwordMatch){
+         if( !passwordMatch){
             throw new CustomError("Invalid Credentials!",400);
          }
 
@@ -72,6 +75,12 @@ module.exports.loginController = async (req,res)=>{
          const token = isExistsUser.generateToken();
 
 
+         return res.status(201).json({
+            token:token,
+            success: true,
+            message: "User LoggedIn SucccessFully!",
+            data: isExistsUser,
+        });
     }
     catch(error){
         next(error)
@@ -80,7 +89,7 @@ module.exports.loginController = async (req,res)=>{
 
 module.exports.profileController = async(req,res)=>{
     try{
-
+        
     }
     catch(error){
       next(error)
