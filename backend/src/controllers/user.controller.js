@@ -89,7 +89,7 @@ module.exports.loginController = async (req,res)=>{
 
 module.exports.profileController = async(req,res)=>{
     try{
-        
+         
     }
     catch(error){
       next(error)
