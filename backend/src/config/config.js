@@ -4,5 +4,5 @@ const _config = {
     JWT_SECRET:process.env.JWT_SECRET
 }
 
-const config = Object(_config)
+const config = Object.freeze(_config)
 module.exports = config
