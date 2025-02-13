@@ -1,61 +1,65 @@
 const userModel = require('../models/user.model');
-module.exports.createUserController = async (req,res)=>{
-     try{
-        const {username,email,password} = req.body;
-        if(!username){
-            return res.status(400).send({
-                message:"Username Is Required"
-            })
+const CustomError = require("../utils/CustomError");
+const bcrypt = require("bcrypt");
+
+module.exports.createUserController = async (req, res, next) => {
+    try {
+        const { username, email, password } = req.body;
+
+        // 🛑 Input Validation
+        if (!username || !email || !password) {
+            throw new CustomError("All fields are required!", 400);
         }
 
-        if(!email){
-            return res.status(400).send({
-                message:"Email Is Required"
-            })
-        }
-        if(!password){
-            return res.status(400).send({
-                message:"Password Is Required"
-            })
-        }
-
-        //If User Exists Cheking
+        // ❌ Check if User Already Exists
         const isExists = await userModel.findOne({
-            $or:[{
-                email:email,
-                username:username
-            }]
-        })
-        if(isExists){
-            return res.status(400).send({
-                message:"UserAlredy Exists Plase Login"
-            })
-        }
-        //Password Hashing
-        const hashPassword = await userModel.hash(password,10)
+            $or: [{ email: email }, { username: username }],
+        });
 
-        //user saving
+        if (isExists) {
+            throw new CustomError("User already exists! Please login.", 400);
+        }
+
+        // 🔐 Password Hashing
+        const hashPassword = await userModel.hash(password, 10);
+
+        // ✅ Save User
         const userSaved = await userModel.create({
             username,
             email,
-            password:hashPassword
-        })
-        //
-        if(!userSaved){
-            return res.status(400).send({
-                message:"Error While Saving The User"
-           })
+            password: hashPassword,
+        });
+
+        if (!userSaved) {
+            throw new CustomError("Error while saving the user!", 500);
         }
-        //SucessFully Saved
-        return res.status(200).json({
-            data:userSaved,
-             message:"UserSaved SuccessFully"
-                
-        })
-     }
-     catch(error){
-        return res.status(400).send({
-             message:"Error While Creating The User"
-        })
-     }
+
+        // 🎉 Success Response
+        return res.status(201).json({
+            success: true,
+            message: "User created successfully!",
+            data: userSaved,
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
+
+module.exports.loginController = async (req,res)=>{
+    try{
+
+    }
+    catch(error){
+        next(error)
+    }
+}
+
+module.exports.profileController = async(req,res)=>{
+    try{
+
+    }
+    catch(error){
+      next(error)
+    }
 }
