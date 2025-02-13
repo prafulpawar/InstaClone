@@ -34,8 +34,13 @@ module.exports.createUserController = async (req, res, next) => {
             throw new CustomError("Error while saving the user!", 500);
         }
 
+        // generateToken
+
+        const token = await userSaved.generateToken()
+
         // 🎉 Success Response
         return res.status(201).json({
+            token:token,
             success: true,
             message: "User created successfully!",
             data: userSaved,
@@ -48,6 +53,24 @@ module.exports.createUserController = async (req, res, next) => {
 
 module.exports.loginController = async (req,res)=>{
     try{
+         const {email,password} = req.body;
+         if(!email){
+            throw new CustomError("Email Is Required!",400)
+         }
+         if(!password){
+            throw new CustomError("Password Is Required!",400)
+         }
+
+         //cheking userExsists Or Not
+         const isExistsUser = await userModel.findOne({email});
+         const passwordMatch = await userModel.comparePassword(password,isExistsUser.password);
+         if(!isExistsUser || !passwordMatch){
+            throw new CustomError("Invalid Credentials!",400);
+         }
+
+         // matched generateToken
+         const token = isExistsUser.generateToken();
+
 
     }
     catch(error){
