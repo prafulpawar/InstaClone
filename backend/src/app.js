@@ -8,5 +8,5 @@ app.use(express.json());
 app.use(express.urlencoded({extend:true}))
 
 app.use('/users',userRoutes)
-app.use('/post',postRoutes)
+app.use('/posts',postRoutes)
 module.exports = app;

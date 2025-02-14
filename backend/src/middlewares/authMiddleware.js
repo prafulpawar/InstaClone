@@ -3,7 +3,7 @@ const userModel = require("../models/user.model")
 module.exports.isAuth = async (req,res,next)=>{
     try{
         const token = req.headers.authorization.split(" ")[1]
-         console.log(token)
+        
         if(!token){
             console.log(error)
             return res.status(400).json({
@@ -12,12 +12,12 @@ module.exports.isAuth = async (req,res,next)=>{
         }
 
         const decode = await userModel.verifyToken(token)
-        console.log(decode)
-        const user = await userModel.find({
-            _id:decode.id
+        const user = await userModel.findOne({
+            _id:decode._id
         })
 
         req.user = user
+        
         next()
     }
     catch(error){

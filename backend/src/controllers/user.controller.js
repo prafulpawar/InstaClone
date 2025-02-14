@@ -95,7 +95,7 @@ module.exports.loginUserController = async(req,res)=>{
                 message:"Invalid Credentails"
               })
           }
-          console.log(userExists)
+          
           // cheking valid password
 
         const matchedPassword = await userModel.comparePassword(password,userExists.password)
@@ -128,9 +128,13 @@ module.exports.loginUserController = async(req,res)=>{
 
 module.exports.profileUserController = async(req,res)=>{
     try{
-          console.log(req.$oruser)
+          const profileUser = await userModel.findById(req.user.id).populate('posts')
+          return res.status(200).send({
+            message:profileUser
+          })
     }
     catch(error){
+        console.log(error)
         return res.status(400).json({
             message:"Error In Profile"
         })
