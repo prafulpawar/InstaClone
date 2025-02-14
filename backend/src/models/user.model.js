@@ -25,7 +25,13 @@ const userSchema = new mongoose.Schema({
     profilePic:{
         type:String,
         default:'abcd'
-    }
+    },
+    posts:[
+        {
+            type:mongoose.Types.ObjectId,
+            ref:'post'
+        }
+    ]
 })
 userSchema.methods.generateToken = function (){
     return  jwt.sign({
