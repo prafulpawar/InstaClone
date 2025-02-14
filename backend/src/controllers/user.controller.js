@@ -75,9 +75,9 @@ module.exports.createUserController = async(req,res)=>{
 
 module.exports.loginUserController = async(req,res)=>{
       try{
-          const {username,password} = req.body;
+          const {email,password} = req.body;
           // validation of feild
-          if(!username){
+          if(!email){
             return res.status(400).send({
                 message:"Invalid Credentials"
             })}
@@ -89,13 +89,13 @@ module.exports.loginUserController = async(req,res)=>{
           }
 
           // finding user exists or not
-          const userExists = await userModel.find({email})
+          const userExists = await userModel.findOne({email})
           if(!userExists){
             return res.status(400).send({
                 message:"Invalid Credentails"
               })
           }
-
+          console.log(userExists)
           // cheking valid password
 
         const matchedPassword = await userModel.comparePassword(password,userExists.password)
@@ -107,7 +107,7 @@ module.exports.loginUserController = async(req,res)=>{
 
         // generator of token
 
-        const token  = user.generateToken();
+        const token  = userExists.generateToken();
 
         return res.status(200).json({
             token,
@@ -119,6 +119,7 @@ module.exports.loginUserController = async(req,res)=>{
 
       }
       catch(error){
+        console.log(error)
         return res.status(400).json({
             message:"Error In Login"
         })
@@ -127,7 +128,7 @@ module.exports.loginUserController = async(req,res)=>{
 
 module.exports.profileUserController = async(req,res)=>{
     try{
-         
+          console.log(req.$oruser)
     }
     catch(error){
         return res.status(400).json({

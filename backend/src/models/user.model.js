@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const jwt      = require('jsonwebtoken')
 const bcrypt   = require('bcrypt');
 const config   = require('../config/config')
-
+console.log(config.JWT_SECRET)
 const userSchema = new mongoose.Schema({
     username:{
         type:String,
@@ -40,7 +40,7 @@ userSchema.methods.generateToken = function (){
          email:this.email
     },config.JWT_SECRET) 
 }
-userSchema.static.verifyToken =  function (token){
+userSchema.statics.verifyToken =  function (token){
     return  jwt.verify(token,config.JWT_SECRET)
 }
 
