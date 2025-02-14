@@ -27,7 +27,7 @@ const userSchema = new mongoose.Schema({
         default:'abcd'
     }
 })
-userSchema.methods.generateToken() = function (){
+userSchema.methods.generateToken = function (){
     return  jwt.sign({
          _id:this.id,
          username:this.username,
