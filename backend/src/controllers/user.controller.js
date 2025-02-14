@@ -1,97 +1,136 @@
-const userModel = require('../models/user.model');
-const CustomError = require("../utils/CustomError");
-const bcrypt = require("bcrypt");
-
-module.exports.createUserController = async (req, res, next) => {
-    try {
-        const { username, email, password } = req.body;
-
-        // 🛑 Input Validation
-        if (!username || !email || !password) {
-            throw new CustomError("All fields are required!", 400);
+const userModel = require('../models/user.model')
+module.exports.createUserController = async(req,res)=>{
+    try{
+        const {username,email,password} = req.body;
+        if(!username){
+            return res.status(400).json({
+                message:"Required Username"
+            })
         }
 
-        // ❌ Check if User Already Exists
-        const isExists = await userModel.findOne({
-            $or: [{ email: email }, { username: username }],
-        });
-
-        if (isExists) {
-            throw new CustomError("User already exists! Please login.", 400);
+        if(!email){
+            return res.status(400).json({
+                message:"Required Email"
+            })
         }
 
-        // 🔐 Password Hashing
-        const hashPassword = await userModel.hash(password, 10);
+        if(!password){
+            return res.status(400).json({
+                message:"Required Password"
+            })
+        }
 
-        // ✅ Save User
-        const userSaved = await userModel.create({
+        // if user is exists 
+        const userExists = await userModel.findOne({
+            $or:[
+                {
+                    email:email,
+                    username:username
+                }
+            ]
+        })
+
+        if(userExists){
+            return res.status(400).json({
+                message:"User Is Exists"
+            })
+        }
+
+        // hash the password 
+        const hashPassword = await userModel.hashing(password);
+
+        if(!hashPassword){
+            return res.status(400).json({
+                message:"Error In Hashing"
+            })
+        }
+
+        // register the user
+
+        const user = await userModel.create({
             username,
             email,
-            password: hashPassword,
-        });
+            password:hashPassword
+        })
 
-        if (!userSaved) {
-            throw new CustomError("Error while saving the user!", 500);
-        }
+        // generating token
 
-        // generateToken
+        const token = user.generateToken()
+ 
+        // seding the reponse
 
-        const token = await userSaved.generateToken()
+        return res.status(200).json({
+            token,
+            message:"User Created Successfully"
+        })
 
-        // 🎉 Success Response
-        return res.status(201).json({
-            token:token,
-            success: true,
-            message: "User created successfully!",
-            data: userSaved,
-        });
-    } catch (error) {
-        next(error);
-    }
-};
-
-
-module.exports.loginController = async (req,res)=>{
-    try{
-         const {email,password} = req.body;
-         if(!email){
-            throw new CustomError("Email Is Required!",400)
-         }
-         if(!password){
-            throw new CustomError("Password Is Required!",400)
-         }
-
-         //cheking userExsists Or Not
-         const isExistsUser = await userModel.findOne({email});
-         if(!isExistsUser ){
-            throw new CustomError("Invalid Credentials!",400);
-         }
-         const passwordMatch = await userModel.comparePassword(password,isExistsUser.password);
-         if( !passwordMatch){
-            throw new CustomError("Invalid Credentials!",400);
-         }
-
-         // matched generateToken
-         const token = isExistsUser.generateToken();
-
-
-         return res.status(201).json({
-            token:token,
-            success: true,
-            message: "User LoggedIn SucccessFully!",
-            data: isExistsUser,
-        });
     }
     catch(error){
-        next(error)
+        return res.status(400).json({
+            message:"Error In Creation"
+        })
     }
 }
 
-module.exports.profileController = async(req,res)=>{
+module.exports.loginUserController = async(req,res)=>{
+      try{
+          const {username,password} = req.body;
+          // validation of feild
+          if(!username){
+            return res.status(400).send({
+                message:"Invalid Credentials"
+            })}
+
+          if(!password){
+              return res.status(400).send({
+                message:"Invalid Password"
+              })
+          }
+
+          // finding user exists or not
+          const userExists = await userModel.find({email})
+          if(!userExists){
+            return res.status(400).send({
+                message:"Invalid Credentails"
+              })
+          }
+
+          // cheking valid password
+
+        const matchedPassword = await userModel.comparePassword(password,userExists.password)
+        if(!matchedPassword){
+            return res.status(400).send({
+                message:"Invalid Credentails"
+              })
+        }
+
+        // generator of token
+
+        const token  = user.generateToken();
+
+        return res.status(200).json({
+            token,
+            message:"Logged In Successfully"
+        })
+
+
+
+
+      }
+      catch(error){
+        return res.status(400).json({
+            message:"Error In Login"
+        })
+    }
+}
+
+module.exports.profileUserController = async(req,res)=>{
     try{
          
     }
     catch(error){
-      next(error)
+        return res.status(400).json({
+            message:"Error In Profile"
+        })
     }
 }

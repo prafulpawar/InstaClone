@@ -27,21 +27,22 @@ const userSchema = new mongoose.Schema({
         default:'abcd'
     }
 })
-
-userSchema.methods.generateToken = function (){
-    return jwt.sign({
-       _id:this.id,
-       username:this.username,
-       email:this.email
-    },config.JWT_SECRET)
+userSchema.methods.generateToken() = function (){
+    return  jwt.sign({
+         _id:this.id,
+         username:this.username,
+         email:this.email
+    },config.JWT_SECRET) 
+}
+userSchema.static.verifyToken =  function (token){
+    return  jwt.verify(token,config.JWT_SECRET)
 }
 
-userSchema.statics.passwordHash = async function (password){
+userSchema.statics.hashing = async function (password){
     return await bcrypt.hash(password,10)
-} 
-
-userSchema.statics.comparePassword = async function (password,userPassword){
-    return await bcrypt.compare(password,userPassword)
+}
+userSchema.statics.comparePassword = async function(password,hashPass){
+    return await bcrypt.compare(password,hashPass)
 }
 
 const userModel = mongoose.model("User",userSchema);
