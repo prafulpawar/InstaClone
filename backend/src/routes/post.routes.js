@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const { createPostController } = require('../controllers/post.controller');
-
-
-router.post('/create',createPostController)
+const {isAuth} = require('../middlewares/authMiddleware')
+router.post('/create',isAuth,createPostController)
 module.exports = router
