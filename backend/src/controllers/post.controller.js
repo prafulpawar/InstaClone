@@ -1,3 +1,5 @@
+const userModel = require("../models/user.model")
+
 module.exports.createPostController = async (req,res)=>{
     try{
         const {media,caption} = req.body
@@ -21,7 +23,15 @@ module.exports.createPostController = async (req,res)=>{
         })
         // adding and post id inside the users posts arrys so that
         // traking the post with corresponding post will be done
-        
+        await userModel.findById(req.user.id,{
+            $push:{
+                _id:createdPost.id
+            }
+        })
+
+        return res.status(400).json({
+            message:"Post Is Created "
+        })
 
 
 
