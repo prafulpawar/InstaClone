@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import './Register.css'
 import {useNavigate} from'react-router-dom'
+import axios from 'axios'
 function Register() {
     const [username,setUsername] = useState("")
     const [email,setEmail] = useState("")
