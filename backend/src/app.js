@@ -10,4 +10,5 @@ app.use(express.urlencoded({extend:true}))
 app.use('/users',userRoutes)
 app.use('/posts',postRoutes)
 app.use('/',indexRoutes)
+
 module.exports = app;

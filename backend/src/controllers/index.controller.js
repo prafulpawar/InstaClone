@@ -14,7 +14,13 @@ module.exports.feedController = async(req,res)=>{
           '$unwind': {
             'path': '$author'
           }
-        }
+        },
+        {
+          '$project': {
+              'author.email': 0,      
+              'author.password': 0    
+          }
+      }
       ])
       return res.status(200).json({
         data:feedData,
