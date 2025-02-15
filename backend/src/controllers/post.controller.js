@@ -1,5 +1,6 @@
 const userModel = require("../models/user.model")
 const postModel = require('../models/post.model')
+
 module.exports.createPostController = async (req,res)=>{
     try{
         const {media,caption} = req.body
