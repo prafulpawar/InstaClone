@@ -13,4 +13,11 @@ body {
 main {
   height: 100%;
   width: 100%;
+}
+
+.register-view {
+  width: 1000vh;
+  height: 100vh;
+  display: flex;
+  border: 2px solid red;
 }/*# sourceMappingURL=Register.css.map */
