@@ -4,18 +4,18 @@ module.exports.feedController = async(req,res)=>{
     try{
        const feedData = await postModel.aggregate([
         {
-            '$lookup': {
-                'from': 'users', 
-                'localField': '_id', 
-                'foreignField': 'posts', 
-                'as': 'author'
-            }
+          '$lookup': {
+            'from': 'users', 
+            'localField': '_id', 
+            'foreignField': 'posts', 
+            'as': 'author'
+          }
         }, {
-            '$unwind': {
-                'path': '$author'
-            }
+          '$unwind': {
+            'path': '$author'
+          }
         }
-    ])
+      ])
       return res.status(200).json({
         data:feedData,
         message:"SucessFully Fetched"
