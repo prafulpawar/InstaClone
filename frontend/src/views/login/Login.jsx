@@ -1,13 +1,29 @@
 import React, { useState } from 'react'
 import './Login.css'
 import axios from 'axios'
-
+import { useNavigate } from 'react-router-dom';
 function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("")
+    const [error,setError] = useState("")
+
+
+    const Navigate = useNavigate()
     const handleClick = (e)=>{
         e.preventDefault();
-        axios.post('')
+        axios.post('http://localhost:3000/users/login',{
+            username,
+            password
+        }).then((res)=>{
+             const data = res.data
+             localStorage.setItem(data);
+             Navigate('/profile')
+        }).catch(err=>{
+            if(err.respoanse.data?.message){
+                setError(err.respoanse.data?.message)
+            }
+        })
+
 
     }
     return (
@@ -32,6 +48,7 @@ function Login() {
 
                 </form>
 
+                {error &&  err.respoanse.data?.message }
 
             </section>
         </main>
