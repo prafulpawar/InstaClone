@@ -1,59 +1,72 @@
-import React, { useState } from 'react'
-import './Login.css'
-import axios from 'axios'
+import React, { useState } from 'react';
+import './Login.css';
+import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+
 function Login() {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
 
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("")
-    const [error,setError] = useState("")
+    const navigate = useNavigate();
 
-    const Navigate = useNavigate()
-    const handleClick = (e)=>{
+    const handleClick = async (e) => {
         e.preventDefault();
-        axios.post('http://localhost:3000/users/login',{
-            email,
-            password
-        }).then((res)=>{
-             const data = res.data
-             localStorage.setItem(data);
-             Navigate('/profile')
-        }).catch(err=>{
-            console.log(err)
-            if(err.respoanse.data?.message){
-                setError(err.respoanse.data?.message)
+        try {
+            const res = await axios.post('http://localhost:3000/users/login', {
+                email,
+                password,
+            });
+
+            const data = res.data;
+            localStorage.setItem('user', JSON.stringify(data));
+
+            navigate('/profile');
+        } catch (err) {
+            console.log(err);
+            if (err.response?.data?.message) {
+                setError(err.response.data.message);
+            } else {
+                setError('Login failed. Please try again.');
             }
-        })
+        }
+    };
 
-
-    }
     return (
         <main>
-            <section className='sections-login'>
+            <section className="sections-login">
                 <form onSubmit={handleClick}>
-
-
-                    <div className='input-groups'>
-                        <label htmlFor="">Email :</label>
-                        <input value={email} onChange={(e)=>setEmail(e.target.value)} type="email" name="email" id="email" placeholder='Enter Email' />
+                    <div className="input-groups">
+                        <label htmlFor="email">Email:</label>
+                        <input
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            type="email"
+                            name="email"
+                            id="email"
+                            placeholder="Enter Email"
+                        />
                     </div>
 
-                    <div className='input-groups'>
-                        <label htmlFor="">Password :</label>
-                        <input value={password} onChange={(e)=> setPassword(e.target.value)} type="password" name="password" id="=password" placeholder='Enter Password' />
+                    <div className="input-groups">
+                        <label htmlFor="password">Password:</label>
+                        <input
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            type="password"
+                            name="password"
+                            id="password"
+                            placeholder="Enter Password"
+                        />
                     </div>
 
-                    <button>
-                        Login
-                    </button>
-
+                    <button type="submit">Login</button>
                 </form>
 
-                {error &&  err.respoanse.data?.message }
-
+                {error && <div className="error">{error}</div>}
             </section>
         </main>
-    )
+    );
 }
 
-export default Login
+export default Login;
