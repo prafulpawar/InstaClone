@@ -3,22 +3,23 @@ import './Login.css'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom';
 function Login() {
+
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("")
     const [error,setError] = useState("")
-
 
     const Navigate = useNavigate()
     const handleClick = (e)=>{
         e.preventDefault();
         axios.post('http://localhost:3000/users/login',{
-            username,
+            email,
             password
         }).then((res)=>{
              const data = res.data
              localStorage.setItem(data);
              Navigate('/profile')
         }).catch(err=>{
+            console.log(err)
             if(err.respoanse.data?.message){
                 setError(err.respoanse.data?.message)
             }
