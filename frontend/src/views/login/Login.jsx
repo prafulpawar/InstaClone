@@ -5,16 +5,20 @@ import './Login.css'
 function Login() {
   return (
      <main>
-         <section>
-               <div className='input-group'>
+         <section className='sections-login'>
+               <div className='input-groups'>
                       <label htmlFor="">Email</label>
                       <input type="email" name="email" id="email"  placeholder='Enter Email'/>
                </div>
 
-               <div className='input-group'>
-                      <label htmlFor="">Email</label>
+               <div className='input-groups'>
+                      <label htmlFor="">Password</label>
                       <input type="password" name="password" id="=password"  placeholder='Enter Password'/>
                </div>
+
+               <button>
+                 Login
+               </button>
 
 
          </section>
