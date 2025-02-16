@@ -20,4 +20,22 @@ main {
   width: 100%;
   display: flex;
   background-color: rgb(60, 124, 180);
+  padding: 1rem;
+}
+.profile-section .container-div .top {
+  display: flex;
+  flex-direction: column;
+}
+.profile-section .container-div .top div img {
+  width: 5rem;
+  height: 5rem;
+  border: 2px solid black;
+  border-radius: 50%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.profile-section .container-div .bottom {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }/*# sourceMappingURL=Profile.css.map */
