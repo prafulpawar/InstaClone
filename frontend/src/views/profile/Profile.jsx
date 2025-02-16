@@ -1,13 +1,15 @@
 import React, { useState } from 'react'
+import './Profile.css'
+
 
 function Profile() {
   const [username,setUsername] = useState("");
   return (
      <main>
-          <section>
+          <section className='profile-section'>
                  <div>
                      <div className="top"> 
-                      
+
                         <div> 
                             <img src="" alt="" />
                         </div>
