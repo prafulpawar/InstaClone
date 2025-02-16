@@ -16,12 +16,17 @@ main {
   
 }
 
-section  {
-    height: 100%;
+section .sections-login {
+     height: 100%;
      width: 100%;
      display: flex;
+     align-items: center;
+     justify-content: center;
+     border: 2px solid red;
+
+
+
      .input-groups{
-        
         min-width: 24rem;
         display: flex;
         flex-direction: column;

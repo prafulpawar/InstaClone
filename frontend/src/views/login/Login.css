@@ -15,24 +15,27 @@ main {
   width: 100%;
 }
 
-section {
+section .sections-login {
   height: 100%;
   width: 100%;
   display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid red;
 }
-section .input-groups {
+section .sections-login .input-groups {
   min-width: 24rem;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
   font-size: 1.5rem;
 }
-section .input-groups input {
+section .sections-login .input-groups input {
   border: 1px solid black;
   border-radius: 0.5rem;
   padding: 0.8rem;
 }
-section button {
+section .sections-login button {
   padding: 0.4rem;
   min-width: 15rem;
   pointer-events: stroke;
