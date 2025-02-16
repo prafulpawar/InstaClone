@@ -1,11 +1,10 @@
 * {
-  margin: 0%;
-  padding: 0%;
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
 }
 
-html,
-body {
+html, body {
   height: 100%;
   width: 100%;
 }
@@ -19,14 +18,17 @@ main {
   height: 100%;
   width: 100%;
   display: flex;
+  flex-direction: column;
   background-color: rgb(60, 124, 180);
   padding: 1rem;
 }
-.profile-section .container-div .top {
+.profile-section .top {
   display: flex;
   flex-direction: column;
+  align-items: start;
+  gap: 0.5rem;
 }
-.profile-section .container-div .top div img {
+.profile-section .top img {
   width: 5rem;
   height: 5rem;
   border: 2px solid black;
@@ -34,8 +36,48 @@ main {
   -o-object-fit: cover;
      object-fit: cover;
 }
-.profile-section .container-div .bottom {
+.profile-section .top h1 {
+  font-size: 1.2rem;
+  color: white;
+}
+.profile-section .bottom {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  margin-top: 1rem;
+}
+.profile-section .bottom .bottom-top {
+  width: 100%;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 2rem;
+  border: 2px solid red;
+}
+.profile-section .bottom .bottom-top img {
+  width: 2rem;
+  height: 2rem;
+  -o-object-fit: cover;
+     object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid red;
+}
+.profile-section .bottom .bottom-top h1 {
+  font-size: 0.8rem;
+  color: white;
+}
+.profile-section .bottom .posts {
+  width: 100%;
+  min-height: 50px;
+  text-align: center;
+  color: white;
+  border: 2px solid red;
+}
+.profile-section .bottom .posts img {
+  height: 20rem;
+  width: 20rem;
+  -o-object-fit: cover;
+     object-fit: cover;
 }/*# sourceMappingURL=Profile.css.map */

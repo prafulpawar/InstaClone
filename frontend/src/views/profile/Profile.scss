@@ -1,48 +1,91 @@
 * {
-    margin: 0%;
-    padding: 0%;
+    margin: 0;
+    padding: 0;
     box-sizing: border-box;
 }
 
-html,
-body {
+html, body {
     height: 100%;
     width: 100%;
 }
 
 main {
     height: 100%;
-    width: 100%; 
+    width: 100%;
 }
 
-.profile-section{
+.profile-section {
     height: 100%;
     width: 100%;
     display: flex;
+    flex-direction: column;
+    // align-items: center;
     background-color: rgb(60, 124, 180);
     padding: 1rem;
-     .container-div{
-       
-        .top{
+
+    .top {
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+        gap: 0.5rem;
+
+        img {
+            width: 5rem;
+            height: 5rem;
+            border: 2px solid black;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        h1 {
+            font-size: 1.2rem;
+            color: white;
+        }
+    }
+
+    .bottom {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        margin-top: 1rem;
+
+        .bottom-top {
+            width: 100%;
             display: flex;
-            flex-direction: column;
-             div img{
-                width: 5rem;
-                height: 5rem;
-                border: 2px solid black;
-                border-radius: 50%;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            padding: 2rem;
+            border: 2px solid red;
+
+            img {
+                width: 2rem;
+                height: 2rem;
                 object-fit: cover;
-             }
-         }
-    
-         .bottom{
-                display: flex;
-                align-items: center;
-                justify-content: center;
-    
-               .bottom-top{
-                   
-               }
-         }
-     }
+                border-radius: 50%;
+                border: 2px solid red;
+            }
+
+            h1 {
+                font-size: 0.8rem;
+                color: white;
+            }
+        }
+
+        .posts {
+
+           
+            width: 100%;
+            min-height: 50px;
+            text-align: center;
+            color: white;
+            border:2px solid red;
+              img{
+                 height: 20rem;
+                 width: 20rem;
+                 object-fit: cover;
+              }
+        }
+    }
 }
