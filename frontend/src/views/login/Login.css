@@ -15,30 +15,44 @@ main {
   width: 100%;
 }
 
-section .sections-login {
+.sections-login {
   height: 100%;
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 2px solid red;
+  background-color: rgb(182, 231, 231);
+  flex-direction: column;
+  gap: 2rem;
+  padding: 1rem;
 }
-section .sections-login .input-groups {
+.sections-login form {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 1rem;
+  gap: 1rem;
+}
+.sections-login form .input-groups {
   min-width: 24rem;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
   font-size: 1.5rem;
 }
-section .sections-login .input-groups input {
+.sections-login form .input-groups input {
   border: 1px solid black;
   border-radius: 0.5rem;
   padding: 0.8rem;
 }
-section .sections-login button {
+.sections-login form button {
   padding: 0.4rem;
   min-width: 15rem;
   pointer-events: stroke;
   cursor: pointer;
   background-color: rgb(226, 226, 226);
+}
+.sections-login .error {
+  color: red;
 }/*# sourceMappingURL=Login.css.map */

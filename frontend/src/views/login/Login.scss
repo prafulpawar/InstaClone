@@ -16,34 +16,48 @@ main {
   
 }
 
-section .sections-login {
-     height: 100%;
-     width: 100%;
+.sections-login {
+    height: 100%;
+    width: 100%;
      display: flex;
      align-items: center;
      justify-content: center;
-     border: 2px solid red;
+     background-color: rgb(182, 231, 231);
+     flex-direction: column;
+     gap:2rem;
+     padding: 1rem;
+    
 
-
-
-     .input-groups{
-        min-width: 24rem;
+     form{
         display: flex;
+        align-items: center;
+        justify-content: center;
         flex-direction: column;
-        gap:0.5rem; 
-        font-size: 1.5rem;
-          input{
-             border: 1px solid black;
-             border-radius: 0.5rem;
-             padding: 0.8rem;
-          }
+        padding: 1rem;
+        gap: 1rem;
+        .input-groups{
+            min-width: 24rem;
+            display: flex;
+            flex-direction: column;
+            gap:0.5rem; 
+            font-size: 1.5rem;
+              input{
+                 border: 1px solid black;
+                 border-radius: 0.5rem;
+                 padding: 0.8rem;
+              }
+         }
+         button{
+          
+            padding: 0.4rem;
+            min-width: 15rem;
+            pointer-events: stroke;
+            cursor: pointer;
+            background-color: rgb(226, 226, 226);
+         }
      }
-     button{
-        padding: 0.4rem;
-        min-width: 15rem;
-        pointer-events: stroke;
-        cursor: pointer;
-        background-color: rgb(226, 226, 226);
-     }
+     .error {
+        color: red;
+    }
 
 }
