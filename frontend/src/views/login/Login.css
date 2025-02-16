@@ -21,15 +21,21 @@ section {
   display: flex;
 }
 section .input-groups {
-  width: 50%;
+  min-width: 24rem;
   display: flex;
   flex-direction: column;
-  gap: 1;
+  gap: 0.5rem;
+  font-size: 1.5rem;
 }
 section .input-groups input {
-  padding: 0.5rem;
+  border: 1px solid black;
+  border-radius: 0.5rem;
+  padding: 0.8rem;
 }
 section button {
   padding: 0.4rem;
-  width: 50%;
+  min-width: 15rem;
+  pointer-events: stroke;
+  cursor: pointer;
+  background-color: rgb(226, 226, 226);
 }/*# sourceMappingURL=Login.css.map */

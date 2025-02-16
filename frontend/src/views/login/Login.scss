@@ -18,20 +18,27 @@ main {
 
 section  {
     height: 100%;
-    width: 100%;
+     width: 100%;
      display: flex;
      .input-groups{
-        width: 50%;
+        
+        min-width: 24rem;
         display: flex;
         flex-direction: column;
-        gap:1; 
+        gap:0.5rem; 
+        font-size: 1.5rem;
           input{
-             padding: 0.5rem;
+             border: 1px solid black;
+             border-radius: 0.5rem;
+             padding: 0.8rem;
           }
      }
      button{
         padding: 0.4rem;
-        width: 50%;
+        min-width: 15rem;
+        pointer-events: stroke;
+        cursor: pointer;
+        background-color: rgb(226, 226, 226);
      }
 
 }
