@@ -19,11 +19,11 @@ function Login() {
             });
     
             const data = res.data;
-            // console.log("data",data.token)
+            console.log("data",data.token)
           
             if (data.token) {
+                console.log(localStorage); 
                 localStorage.setItem('user', JSON.stringify({ token: data.token }));
-
                 const user = JSON.parse(localStorage.getItem('user'));
                  console.log(user.token); // Access the token
 

@@ -8,38 +8,37 @@ function Profile() {
   const navigate = useNavigate();
 
   function getProfileData() {
-   
     const storedUser = localStorage.getItem("user");
-    //  console.log(storedUser)
     if (!storedUser) {
-        navigate("/login"); 
-        return;
+      navigate("/login");
+      return;
     }
 
     let token;
     try {
-        token = JSON.parse(storedUser).token; 
-        console.log(token)
+      token = JSON.parse(storedUser).token;
+      console.log("Token:", token);  // Logging token here
     } catch (error) {
-        console.error("Error parsing token:", error);
-        localStorage.removeItem("user"); 
-        navigate("/login"); 
-        return;
+      console.error("Error parsing token:", error);
+      localStorage.removeItem("user");
+      navigate("/login");
+      return;
     }
 
     axios
-        .post("http://localhost:3000/users/profile", {
-            headers: { Authorization: `bearer ${token}` },
-        })
-        .then((res) => setUserData(res.data))
-        .catch((err) => {
-            console.log("Error:", err);
-            localStorage.removeItem("user"); 
-            navigate("/login");
-            
-        });
-}
-
+      .post("http://localhost:3000/users/profile", {}, {
+        headers: { Authorization: `bearer ${token}` },
+      })
+      .then((res) => {
+        console.log("Profile Data:", res.data);  // Logging response data here
+        setUserData(res.data);
+      })
+      .catch((err) => {
+        console.log("Error:", err);
+        localStorage.removeItem("user");
+        navigate("/login");
+      });
+  }
 
   useEffect(() => {
     getProfileData();
@@ -88,3 +87,4 @@ function Profile() {
 }
 
 export default Profile;
+
