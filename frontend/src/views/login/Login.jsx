@@ -1,42 +1,30 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './Login.css';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-
 function Login() {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [error, setError] = useState('');
+      const [email,setEmail] = useState("");
+      const [password,setPassword]  = useState("");
+      const [error,setError] = useState("");
+      const navigate = useNavigate()
 
-    const navigate = useNavigate();
-
-    const handleClick = async (e) => {
-        e.preventDefault();
-        try {
-            const res = await axios.post('http://localhost:3000/users/login', {
-                email,
-                password,
-            });
-    
+      function handleClick(e){
+            e.preventDefault();
+         axios.post('http://localhost:3000/users/login',{
+            email,
+            password
+         }).then((res)=>{
+             console.log(res)
             const data = res.data;
-            console.log("data",data.token)
-          
-            if (data.token) {
-                console.log(localStorage); 
-                localStorage.setItem('user', JSON.stringify({ token: data.token }));
-                const user = JSON.parse(localStorage.getItem('user'));
-                 console.log(user.token); // Access the token
-
- 
-                navigate('/profile');
-            } else {
-                setError('Login failed: No token received');
+            localStorage.setItem('user',{token:data})
+            navigate('/profile')
+         }).catch(err =>{
+            if (err.response.data?.message) {
+                setError(err.response.data.message)
             }
-        } catch (err) {
-            console.log(err);
-            setError(err.response?.data?.message || 'Login failed. Please try again.');
-        }
-    };
+         })
+
+      }
     
 
     return (

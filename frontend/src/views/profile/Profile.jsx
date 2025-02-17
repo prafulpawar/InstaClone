@@ -1,48 +1,25 @@
 import React, { useState, useEffect } from "react";
 import "./Profile.css";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 
 function Profile() {
-  const [userData, setUserData] = useState(null);
-  const navigate = useNavigate();
+     const [userData,setUserData] = useState("");
 
-  function getProfileData() {
-    const storedUser = localStorage.getItem("user");
-    if (!storedUser) {
-      navigate("/login");
-      return;
-    }
+     function getData () {
+          axios.post('http://localhost:3000/users/profile',{},{
+              headers:{
+                Authorization: `bearer ${token}`
+              }
+          }).then((res)=>{
+               setUserData(res.data)
+          }).catch(err =>{
+               console.log(err)
+          })
+     }
 
-    let token;
-    try {
-      token = JSON.parse(storedUser).token;
-      console.log("Token:", token);  // Logging token here
-    } catch (error) {
-      console.error("Error parsing token:", error);
-      localStorage.removeItem("user");
-      navigate("/login");
-      return;
-    }
-
-    axios
-      .post("http://localhost:3000/users/profile", {}, {
-        headers: { Authorization: `bearer ${token}` },
-      })
-      .then((res) => {
-        console.log("Profile Data:", res.data);  // Logging response data here
-        setUserData(res.data);
-      })
-      .catch((err) => {
-        console.log("Error:", err);
-        localStorage.removeItem("user");
-        navigate("/login");
-      });
-  }
-
-  useEffect(() => {
-    getProfileData();
-  }, []);
+     useEffect(()=>{
+         getData()
+     },[])
 
   return (
     <main>

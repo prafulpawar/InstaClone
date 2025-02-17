@@ -1,32 +1,30 @@
 import React, { useState } from 'react'
 import './Register.css'
-import {useNavigate} from'react-router-dom'
 import axios from 'axios'
+import { useNavigate } from 'react-router-dom';
 function Register() {
-    const [username,setUsername] = useState("")
-    const [email,setEmail] = useState("")
-    const [password,setPassword] = useState("")
-    const [ error, setError ] = useState("")
-    console.log(username,email,password)
-     const Navigate = useNavigate()
-
-    // now api calling 
-    const handleSubmit = (e)=>{
-        e.preventDefault()
-        axios.post('http://localhost:3000/users/register',{
+       const [username,setUsername] = useState("");
+       const [email,setEmail] = useState("");
+       const [password,setPassword] = useState("");
+       const [error,setError] = useState("")
+       const navigate = useNavigate();
+       function handleSubmit(e) {
+          e.preventDefault();
+          
+          axios.post('http://localhost:3000/users/register',{
             username,
-            email,
-            password
-        }).then((res)=>{
-             const data = res.data;
-             localStorage.setItem("token",data.token)
-             Navigate('/profile')
-        }).catch(err=>{
-             if(err.response.data?.message){
-                 setError(err.response.data.message)
-             }
-        })
-    }
+            password,
+            email
+          }).then((res)=>{
+                const data = res.data;
+                localStorage.setItem('user',{token:data})
+                navigate('/profile')
+          }).catch(err=>{
+                setError(err.response.message)
+          })
+       }
+
+
    
   return (
       <main>
