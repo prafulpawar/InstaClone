@@ -1,5 +1,4 @@
 const postModel = require("../models/post.model")
-
 module.exports.feedController = async(req,res)=>{
     try{
        const feedData = await postModel.aggregate([

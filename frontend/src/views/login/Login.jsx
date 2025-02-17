@@ -17,20 +17,27 @@ function Login() {
                 email,
                 password,
             });
-
+    
             const data = res.data;
-            localStorage.setItem('user', JSON.stringify(data));
+            // console.log("data",data.token)
+          
+            if (data.token) {
+                localStorage.setItem('user', JSON.stringify({ token: data.token }));
 
-            navigate('/profile');
+                const user = JSON.parse(localStorage.getItem('user'));
+                 console.log(user.token); // Access the token
+
+ 
+                navigate('/profile');
+            } else {
+                setError('Login failed: No token received');
+            }
         } catch (err) {
             console.log(err);
-            if (err.response?.data?.message) {
-                setError(err.response.data.message);
-            } else {
-                setError('Login failed. Please try again.');
-            }
+            setError(err.response?.data?.message || 'Login failed. Please try again.');
         }
     };
+    
 
     return (
         <main>

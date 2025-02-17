@@ -15,7 +15,7 @@ main {
   width: 100%;
 }
 
-section .register-view {
+.register-view {
   height: 100%;
   width: 100%;
   display: flex;
@@ -26,29 +26,29 @@ section .register-view {
   flex-direction: column;
   padding: 1rem;
 }
-section .register-view form {
+.register-view form {
   display: flex;
   flex-direction: column;
   gap: 1rem;
   min-width: 24rem;
 }
-section .register-view form .input-group {
+.register-view form .input-group {
   display: flex;
   font-size: 1.2em;
   gap: 0.5rem;
   flex-direction: column;
 }
-section .register-view form .input-group input {
+.register-view form .input-group input {
   padding: 0.5rem;
   border: 1px solid #000;
   border-radius: 0.25rem;
   font-size: 1em;
 }
-section .register-view form button {
+.register-view form button {
   padding: 0.5rem;
   font-size: 1em;
   cursor: pointer;
 }
-section .register-view .error {
+.register-view .error {
   color: red;
 }/*# sourceMappingURL=Register.css.map */
