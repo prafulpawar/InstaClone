@@ -47,7 +47,9 @@ module.exports.createPostController = async (req,res)=>{
 
 module.exports.likeController = async(req,res)=>{
     try{
-         
+         const { likeCount } = req.body;
+         //
+
     }
     catch(err){
         return res.status(400).json({
