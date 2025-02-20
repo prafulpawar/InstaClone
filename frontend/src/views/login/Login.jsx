@@ -17,7 +17,6 @@ function Login() {
          }).then((res)=>{
              
             const data = res.data;
-            console.log(data)
             localStorage.setItem('user',data.token)
             navigate('/profile')
          }).catch(err =>{

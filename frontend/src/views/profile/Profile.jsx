@@ -9,17 +9,22 @@ function Profile() {
 
      function getData () {
           const storedUser  = localStorage.getItem("user");
-            
+             
+
              if(!storedUser){
                navigate("/login")
                return;
-           }
+           } 
 
+           console.log(storedUser)
+
+           
           axios.post('http://localhost:3000/users/profile',{},{
               headers:{
-                Authorization: `bearer ${token}`
+                Authorization: `bearer ${storedUser}`
               }
           }).then((res)=>{
+            console.log(res.data)
                setUserData(res.data)
           }).catch(err =>{
                console.log(err)

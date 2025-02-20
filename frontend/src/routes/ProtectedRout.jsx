@@ -1,14 +1,17 @@
 import React from 'react'
-import { Navigate } from 'react-router-dom';
-
+import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 function ProtectedRout({children}) {
-    const token  =  localStorage.getItem('user');
-    
-    if(!token){
-        return  <Navigate to='/login'/>
-    }
-
-    return children
+    const navigate = useNavigate();
+    useEffect(()=>{
+        const token = localStorage.getItem("user")
+        if(!token) navigate("/login");
+    },[])
+  return (
+    <div>
+        {children}
+    </div>
+  )
 }
 
 export default ProtectedRout
