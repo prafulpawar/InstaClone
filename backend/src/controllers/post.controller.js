@@ -44,3 +44,14 @@ module.exports.createPostController = async (req,res)=>{
         })
     }
 }
+
+module.exports.likeController = async(req,res)=>{
+    try{
+         
+    }
+    catch(err){
+        return res.status(400).json({
+            message:'Error In Like'
+        })
+    }
+}
