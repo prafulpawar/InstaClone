@@ -46,7 +46,9 @@ module.exports.createPostController = async (req,res)=>{
 }
 
 module.exports.likeController = async (req, res) => {
-    try {
+    
+  try
+      {
         const {  postId, userId } = req.body;
 
         // Validate userId and postId
@@ -82,8 +84,6 @@ module.exports.likeController = async (req, res) => {
             });
             return res.status(200).json({ message: "liked" });
         }
-
-
 
     } catch (err) {
         console.log(err);
