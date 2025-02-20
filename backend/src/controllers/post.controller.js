@@ -70,39 +70,27 @@ module.exports.likeController = async(req,res)=>{
          } 
          
          const LikeCount = await postModel.findOne({_id:postId})
-         console.log(LikeCount.like.length)
          if(LikeCount.like.length === likeCount ){
-            console.log("Hello")
+           
                 const liked = await postModel.findByIdAndUpdate({_id:LikeCount._id},{
                     $push:{
                         like:userID._id
                     }
                 })
                 return res.status(200).json({
-                    message:LikeCount,
-                    data:userID
+                    message:liked,
                  })
          }
          else{
-            console.log("Hello")
                 const liked = await postModel.findByIdAndUpdate({_id:LikeCount._id},{
                     $pull:{
                         like:userID._id
                     }
                 })
-
                 return res.status(200).json({
-                    message:LikeCount,
-                    data:userID
+                    message:liked,
                  })
          }
-       
-         return res.status(200).json({
-            message:LikeCount,
-            data:userID
-         })
-
-
     }
     catch(err){
         console.log(err)
