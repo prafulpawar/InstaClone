@@ -9,7 +9,12 @@ const postSchema = new mongoose.Schema({
     caption: {
         type: String,
         required: true
-    }
+    },
+    like:[
+       {
+          type: mongoose.Types.ObjectId
+       }
+    ]
 });
 
 const postModel = mongoose.model("post", postSchema);

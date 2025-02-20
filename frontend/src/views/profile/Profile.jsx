@@ -2,15 +2,18 @@ import React, { useState, useEffect } from "react";
 import "./Profile.scss";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import Posts from "./Posts";
+
+
 
 function Profile() {
   const [userData, setUserData] = useState(() => {
     return JSON.parse(localStorage.getItem("userData")) || { username: "", posts: [] };
   });
 
-  const navigate = useNavigate();
+  const [like,setLike] = useState(0)
 
+  const navigate = useNavigate();
+ 
   function getData() {
     const storedUser = localStorage.getItem("user");
 
@@ -34,23 +37,40 @@ function Profile() {
       });
   }
 
+  function handleLike (userData,post){
+      console.log(userData)
+      console.log(post)
+      console.log(like);
+  }
+  
   useEffect(() => {
     getData();
   }, []);
 
   return (
-    <main className="profile-container">
-      <section className="profile-header">
+    <main className="profile-section">
+      <section className="top">
         <img
           src="https://images.unsplash.com/photo-1739312023925-19eca8ca00aa?q=80&w=869&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8fHw"
           alt="Profile"
-          className="profile-pic"
         />
-        <h1 className="username">{userData.username}</h1>
+        <h1>{userData.username}</h1>
       </section>
 
-      <section className="posts-section">
-        <Posts posts={userData.posts} />
+      <section className="bottom">
+        <div className="posts">
+          {userData.posts.length > 0 ? (
+            userData.posts.map((post, index) => (
+              <div key={index}>
+                <img src={post.media} alt={`Post ${index}`} />
+                <h1>{post.caption}</h1>
+                <button  onClick={()=>handleLike(userData._id,post._id)} >Like {like}</button>
+              </div>
+            ))
+          ) : (
+            <p>No posts available</p>
+          )}
+        </div>
       </section>
 
       <button
