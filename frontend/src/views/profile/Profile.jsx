@@ -52,7 +52,7 @@ function Profile() {
         setUserData((prevUserData) => {
           const updatedPosts = prevUserData.posts.map((post) => {
             if (post._id === postId) {
-              return { ...post, liked: !post.liked };
+              return { ...post, liked: !post.liked }; // Toggle like state
             }
             return post;
           });
