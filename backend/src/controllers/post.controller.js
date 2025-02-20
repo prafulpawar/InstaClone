@@ -74,13 +74,13 @@ module.exports.likeController = async (req, res) => {
             await postModel.findByIdAndUpdate(postId, {
                 $pull: { like: user._id },
             });
-            return res.status(200).json({ message: "Post unliked" });
+            return res.status(200).json({ message: "unliked" });
         } else {
             // Like (add user to likes array)
             await postModel.findByIdAndUpdate(postId, {
                 $push: { like: user._id },
             });
-            return res.status(200).json({ message: "Post liked" });
+            return res.status(200).json({ message: "liked" });
         }
 
 
