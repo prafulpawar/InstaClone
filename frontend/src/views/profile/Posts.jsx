@@ -8,6 +8,7 @@ function Posts({ posts }) {
           <div key={index}>
             <img src={post.media} alt={`Post ${index}`} />
             <h1>{post.caption}</h1>
+            <button>Like</button>
           </div>
         ))
       ) : (
