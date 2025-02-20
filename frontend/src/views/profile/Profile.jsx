@@ -49,6 +49,7 @@ function Profile() {
         postId,
       })
       .then((res) => {
+
         setUserData((prevUserData) => {
           const updatedPosts = prevUserData.posts.map((post) => {
             if (post._id === postId) {
@@ -59,6 +60,8 @@ function Profile() {
           return { ...prevUserData, posts: updatedPosts };
         });
       })
+
+
       .catch((err) => {
         console.log("Error liking post:", err.response?.data?.message || err.message);
       });
@@ -81,14 +84,20 @@ function Profile() {
       <section className="bottom">
         <div className="posts">
           {userData.posts.length > 0 ? (
+            
             userData.posts.map((post) => (
+
               <div key={post._id}>
+
                 <img src={post.media} alt={post.caption} />
                 <h1>{post.caption}</h1>
+
                 <button onClick={() => handleLike(post._id)}>
                   {post.liked ? "Unlike" : "Like"}
                 </button>
+
               </div>
+
             ))
           ) : (
             <p>No posts available</p>
