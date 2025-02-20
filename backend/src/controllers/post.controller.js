@@ -45,57 +45,50 @@ module.exports.createPostController = async (req,res)=>{
     }
 }
 
-module.exports.likeController = async(req,res)=>{
-    try{
-         const { likeCount,postId,userId } = req.body;
-         //
-         const userID = await userModel.findById({
-            _id:userId
-         })
+module.exports.likeController = async (req, res) => {
+    try {
+        const {  postId, userId } = req.body;
 
-         const postID = await postModel.findById({
-            _id:postId
-         })
-
-         if(!userID){
+        // Validate userId and postId
+        if (!userId || !postId) {
             return res.status(400).json({
-                message:'Post Is Invalid'
-            })
-         }
+                message: "User ID or Post ID is missing",
+            });
+        }
 
-         if(!postID ){
-            return res.status(400).json({
-                message:'Post Is Invalid'
-            })
-         } 
-         
-         const LikeCount = await postModel.findOne({_id:postId})
-         if(LikeCount.like.length === likeCount ){
-           
-                const liked = await postModel.findByIdAndUpdate({_id:LikeCount._id},{
-                    $push:{
-                        like:userID._id
-                    }
-                })
-                return res.status(200).json({
-                    message:liked,
-                 })
-         }
-         else{
-                const liked = await postModel.findByIdAndUpdate({_id:LikeCount._id},{
-                    $pull:{
-                        like:userID._id
-                    }
-                })
-                return res.status(200).json({
-                    message:liked,
-                 })
-         }
+        // Fetch user and post
+        const user = await userModel.findById(userId);
+        const post = await postModel.findById(postId);
+
+        if (!user) {
+            return res.status(400).json({ message: "Invalid User ID" });
+        }
+
+        if (!post) {
+            return res.status(400).json({ message: "Invalid Post ID" });
+        }
+
+        // Handle Like/Unlike
+        if (post.like.includes(user._id)) {
+            // Unlike (remove user from likes array)
+            await postModel.findByIdAndUpdate(postId, {
+                $pull: { like: user._id },
+            });
+            return res.status(200).json({ message: "Post unliked" });
+        } else {
+            // Like (add user to likes array)
+            await postModel.findByIdAndUpdate(postId, {
+                $push: { like: user._id },
+            });
+            return res.status(200).json({ message: "Post liked" });
+        }
+
+
+
+    } catch (err) {
+        console.log(err);
+        return res.status(500).json({
+            message: "Error in like operation",
+        });
     }
-    catch(err){
-        console.log(err)
-        return res.status(400).json({
-            message:'Error In Like'
-        })
-    }
-}
+};

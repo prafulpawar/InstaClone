@@ -37,11 +37,27 @@ function Profile() {
       });
   }
 
-  function handleLike (userData,post){
-      console.log(userData)
-      console.log(post)
-      console.log(like);
-  }
+  function handleLike(postId) {
+    const storedUser = JSON.parse(localStorage.getItem("userData"));
+    
+    if (!storedUser || !storedUser._id) {
+        console.log("User not found in local storage");
+        return;
+    }
+
+    axios
+        .post("http://localhost:3000/posts/like", {
+            userId: storedUser._id, 
+            postId,
+        })
+        .then((res) => {
+            console.log(res.data.message);
+        })
+        .catch((err) => {
+            console.log("Error liking post:", err.response?.data?.message || err.message);
+        });
+}
+
   
   useEffect(() => {
     getData();
@@ -64,7 +80,7 @@ function Profile() {
               <div key={index}>
                 <img src={post.media} alt={`Post ${index}`} />
                 <h1>{post.caption}</h1>
-                <button  onClick={()=>handleLike(userData._id,post._id)} >Like {like}</button>
+                <button  onClick={() => handleLike(post._id)} >Like {like}</button>
               </div>
             ))
           ) : (
