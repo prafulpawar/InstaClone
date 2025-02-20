@@ -3,17 +3,13 @@ import "./Profile.scss";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-
-
 function Profile() {
   const [userData, setUserData] = useState(() => {
     return JSON.parse(localStorage.getItem("userData")) || { username: "", posts: [] };
   });
 
-  const [like,setLike] = useState('Like')
-
   const navigate = useNavigate();
- 
+
   function getData() {
     const storedUser = localStorage.getItem("user");
 
@@ -23,9 +19,11 @@ function Profile() {
     }
 
     axios
-      .post("http://localhost:3000/users/profile", {}, {
-        headers: { Authorization: `bearer ${storedUser}` },
-      })
+      .post(
+        "http://localhost:3000/users/profile",
+        {},
+        { headers: { Authorization: `bearer ${storedUser}` } }
+      )
       .then((res) => {
         setUserData(res.data.message || { username: "", posts: [] });
         localStorage.setItem("userData", JSON.stringify(res.data.message));
@@ -39,25 +37,33 @@ function Profile() {
 
   function handleLike(postId) {
     const storedUser = JSON.parse(localStorage.getItem("userData"));
-    
+
     if (!storedUser || !storedUser._id) {
-        console.log("User not found in local storage");
-        return;
+      console.log("User not found in local storage");
+      return;
     }
 
-    axios.post("http://localhost:3000/posts/like", {
-            userId: storedUser._id, 
-            postId,
-        })
-        .then((res) => {
-            console.log(res.data.message);
-        })
-        .catch((err) => {
-            console.log("Error liking post:", err.response?.data?.message || err.message);
+    axios
+      .post("http://localhost:3000/posts/like", {
+        userId: storedUser._id,
+        postId,
+      })
+      .then((res) => {
+        setUserData((prevUserData) => {
+          const updatedPosts = prevUserData.posts.map((post) => {
+            if (post._id === postId) {
+              return { ...post, liked: !post.liked };
+            }
+            return post;
+          });
+          return { ...prevUserData, posts: updatedPosts };
         });
-}
+      })
+      .catch((err) => {
+        console.log("Error liking post:", err.response?.data?.message || err.message);
+      });
+  }
 
-  
   useEffect(() => {
     getData();
   }, []);
@@ -75,11 +81,13 @@ function Profile() {
       <section className="bottom">
         <div className="posts">
           {userData.posts.length > 0 ? (
-            userData.posts.map((post, index) => (
-              <div key={index}>
-                <img src={post.media} alt={`Post ${index}`} />
+            userData.posts.map((post) => (
+              <div key={post._id}>
+                <img src={post.media} alt={post.caption} />
                 <h1>{post.caption}</h1>
-                <button  onClick={() => handleLike(post._id)} >{like}</button>
+                <button onClick={() => handleLike(post._id)}>
+                  {post.liked ? "Unlike" : "Like"}
+                </button>
               </div>
             ))
           ) : (
