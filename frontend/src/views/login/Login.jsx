@@ -3,6 +3,7 @@ import './Login.css';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 function Login() {
+
       const [email,setEmail] = useState("");
       const [password,setPassword]  = useState("");
       const [error,setError] = useState("");
@@ -14,9 +15,10 @@ function Login() {
             email,
             password
          }).then((res)=>{
-             console.log(res)
+             
             const data = res.data;
-            localStorage.setItem('user',{token:data})
+            console.log(data)
+            localStorage.setItem('user',data.token)
             navigate('/profile')
          }).catch(err =>{
             if (err.response.data?.message) {

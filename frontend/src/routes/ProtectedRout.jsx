@@ -1,9 +1,14 @@
 import React from 'react'
-import { useNavigate } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 
-function ProtectedRout() {
+function ProtectedRout({children}) {
     const token  =  localStorage.getItem('user');
-    console.log(token.JSON())
+    
+    if(!token){
+        return  <Navigate to='/login'/>
+    }
+
+    return children
 }
 
 export default ProtectedRout

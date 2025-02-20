@@ -1,11 +1,20 @@
 import React, { useState, useEffect } from "react";
 import "./Profile.css";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function Profile() {
      const [userData,setUserData] = useState("");
+     const navigate = useNavigate();
 
      function getData () {
+          const storedUser  = localStorage.getItem("user");
+            
+             if(!storedUser){
+               navigate("/login")
+               return;
+           }
+
           axios.post('http://localhost:3000/users/profile',{},{
               headers:{
                 Authorization: `bearer ${token}`
@@ -14,6 +23,7 @@ function Profile() {
                setUserData(res.data)
           }).catch(err =>{
                console.log(err)
+               localStorage.removeItem('user')
           })
      }
 

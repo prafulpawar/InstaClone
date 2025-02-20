@@ -12,16 +12,13 @@ function AppRoutes() {
                   
                   <Route  path='/login' element={<Login />}/>
                   
-                  <Route  path='/profile'
+                  < Route  path='/profile'
                   element ={
                       <ProtectedRout>
                          <Profile />
                       </ProtectedRout>
-                  }
-                    />
+                  }/>
                   
-                 
-
                   <Route  path='/register' element={<Register />}/>
 
               </Routes>
