@@ -10,7 +10,7 @@ function Profile() {
     return JSON.parse(localStorage.getItem("userData")) || { username: "", posts: [] };
   });
 
-  const [like,setLike] = useState(0)
+  const [like,setLike] = useState('Like')
 
   const navigate = useNavigate();
  
@@ -45,8 +45,7 @@ function Profile() {
         return;
     }
 
-    axios
-        .post("http://localhost:3000/posts/like", {
+    axios.post("http://localhost:3000/posts/like", {
             userId: storedUser._id, 
             postId,
         })
@@ -80,7 +79,7 @@ function Profile() {
               <div key={index}>
                 <img src={post.media} alt={`Post ${index}`} />
                 <h1>{post.caption}</h1>
-                <button  onClick={() => handleLike(post._id)} >Like {like}</button>
+                <button  onClick={() => handleLike(post._id)} >{like}</button>
               </div>
             ))
           ) : (
