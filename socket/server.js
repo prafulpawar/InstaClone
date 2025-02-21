@@ -1,13 +1,11 @@
-const express = require('express');
 const app = require('./src/app/app')
 const http = require('http');
 
 const server = http.createServer(app);
 const io = require('socket.io')(server);
 
-io.on('connection',client=>{
-    client.on('event', data => { /* _ */  })
-    client.on('disconnect', () =>{ /* _ */ })
+io.on('connection',socket=>{
+      console.log("User Conmected")
 })
 
 server.listen(3000,()=>{
