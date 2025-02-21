@@ -51,7 +51,7 @@ module.exports.likeController = async (req, res) => {
   
       
       if (!userId || !postId) {
-        return res.status(400).json({ message: "User ID or Post ID is missing" });
+        return res.status(400).json({ message: "USER ID || POSTID required" });
       }
   
       
@@ -82,7 +82,7 @@ module.exports.likeController = async (req, res) => {
         return res.status(200).json({ message: "liked" });
       }
 
-      
+
     } catch (err) {
       console.log(err);
       return res.status(500).json({ message: "Error in like operation" });
