@@ -84,7 +84,7 @@ function Profile() {
       <section className="bottom">
         <div className="posts">
           {userData.posts.length > 0 ? (
-            
+
             userData.posts.map((post) => (
 
               <div key={post._id}>
