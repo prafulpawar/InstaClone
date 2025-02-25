@@ -2,6 +2,10 @@ const userModel = require('../models/user.model')
 module.exports.createUserController = async(req,res)=>{
     try{
         const {username,email,password} = req.body;
+        const profilePic = req.file ? req.file.filename : null; 
+        const filePath = 'src/upload/'+profilePic
+        console.log("Uploaded file:", req.file);
+       
         if(!username){
             return res.status(400).json({
                 message:"Required Username"
@@ -50,7 +54,8 @@ module.exports.createUserController = async(req,res)=>{
         const user = await userModel.create({
             username,
             email,
-            password:hashPassword
+            password:hashPassword,
+            profilePic:filePath
         })
 
         // generating token

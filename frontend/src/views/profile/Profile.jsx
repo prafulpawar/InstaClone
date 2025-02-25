@@ -72,10 +72,12 @@ function Profile() {
   }, []);
 
   return (
+ 
     <main className="profile-section">
+        { console.log(userData)}
       <section className="top">
         <img
-          src="https://images.unsplash.com/photo-1739312023925-19eca8ca00aa?q=80&w=869&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8fHw"
+          src={userData.profilePic}
           alt="Profile"
         />
         <h1>{userData.username}</h1>
