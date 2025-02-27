@@ -1,49 +1,58 @@
-const userModel = require("../models/user.model")
-const postModel = require('../models/post.model')
+const fs = require("fs");
+const imagekit = require("../middlewares/imagekit");
+const userModel = require("../models/user.model");
+const postModel = require("../models/post.model");
+// const upload = require("../middlewares/multer");
 
-module.exports.createPostController = async (req,res)=>{
-    try{
-        const {media,caption} = req.body
-        if(!media){
-            return res.status(400).json({
-                message:"Media Is Required"
-            }) 
+
+module.exports.createPostController = async (req, res) => {
+  // const fileBuffer = fs.readFileSync(req.file.path); 
+
+    try {
+        if (!req.file) {
+            return res.status(400).json({ message: "Media is required" });
         }
 
-        if(!caption){
-            return res.status(400).json({
-                message:"Caption Is Required"
-            }) 
+        const { caption } = req.body;
+        if (!caption) {
+            return res.status(400).json({ message: "Caption is required" });
         }
+       
+        console.log(req.file)
+        const uploadedImage = await imagekit.upload({
+            file: req.file.buffer.toString('base64'),
+            fileName: req.file,
+            folder: "uploads/",
+            isPublished:true,
+            isPrivateFile:false,
+        });
+        console.log(uploadedImage)
+        
+        // fs.unlink(req.file.path, (err) => {
+        //     if (err) console.error("Failed to delete file:", err);
+        // });
+        
 
-        // creating post
-
+    
         const createdPost = await postModel.create({
-            media,
+            media: uploadedImage.url, 
             caption
-        })
-        // adding and post id inside the users posts arrys so that
-        // traking the post with corresponding post will be done
-        console.log(req.user)
-        await userModel.findByIdAndUpdate(req.user.id,{
-            $push:{
-                posts:createdPost.id
-            }
-        })
+        });
 
-        return res.status(200).json({
-            message:"Post Is Created "
-        })
+       
+        await userModel.findByIdAndUpdate(req.user.id, {
+            $push: { posts: createdPost.id }
+        });
 
+        return res.status(200).json({ message: "Post Created Successfully", post: createdPost });
 
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ message: "Error in Creating Post" });
     }
-    catch(error){
-        console.log(error)
-        return res.status(400).json({
-            message:"Error In Creating Post"
-        })
-    }
-}
+};
+
+
 
 module.exports.likeController = async (req, res) => {
     try {

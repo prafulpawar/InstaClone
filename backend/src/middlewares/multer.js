@@ -1,22 +1,34 @@
 const multer = require('multer');
-const path  = require('path');
-const mongoose = require('mongoose')
+
+
+
 const storage = multer.diskStorage({
-    destination:(req,file,cb)=>{
-        cb(null,'src/upload/')
+    destination: function (req, file, cb) {
+        cb(null, 'src/uploads/'); 
     },
-    filename:(req,file,cb)=>{
-        const uniqueSuffix = Date.now()+'-' + Math.round(Math.random()*1E9);
-        // cb(null,file.fieldname+''+uniqueSuffix+path.extname(file.originalname))
-        cb(null,mongoose.Types.ObjectId.toString()+path.extname(file.originalname))
+    filename: function (req, file, cb) {
+        cb(null, Date.now() + '-' + file.originalname);
     }
-})
+});
 
 
-  const upload = multer({
-    storage: storage,
-    limits: { fileSize: 5 * 1024 * 1024 },
-  
-  });
-  
-  module.exports = upload;
+
+
+const fileFilter = (req, file, cb) => {
+    if (!file.mimetype.startsWith('image/')) {
+        return cb(new Error('Only images are allowed'), false);
+    }
+    cb(null, true);
+};
+
+const upload = multer({
+  storage: storage,
+  fileFilter: fileFilter,
+  limits: { fileSize: 5 * 1024 * 1024 } 
+});
+
+
+module.exports = upload;
+
+// with memory storrage
+// const upload = multer({storage:multer.memoryStorage()})
