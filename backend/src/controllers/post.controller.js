@@ -2,6 +2,9 @@ const fs = require("fs");
 const imagekit = require("../middlewares/imagekit");
 const userModel = require("../models/user.model");
 const postModel = require("../models/post.model");
+const { Readable } = require("stream")
+const mongoose = require('mongoose');
+
 // const upload = require("../middlewares/multer");
 
 
@@ -20,8 +23,9 @@ module.exports.createPostController = async (req, res) => {
        
         console.log(req.file)
         const uploadedImage = await imagekit.upload({
-            file: req.file.buffer.toString('base64'),
-            fileName: req.file,
+            //file: req.file.buffer.toString('base64'),// iski jagah stream conversion karna honga to ek module lagenga hame 
+            file:Readable.from(req.file.buffer), 
+            fileName:new mongoose.Types.ObjectId().toString(),
             folder: "uploads/",
             isPublished:true,
             isPrivateFile:false,
